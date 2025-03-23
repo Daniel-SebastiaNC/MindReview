@@ -7,6 +7,8 @@ import br.com.dev.danielsebastian.MindReview.infra.persistence.QuestionRepositor
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class QuestionRepositoryGateway implements QuestionGateway {
@@ -21,5 +23,12 @@ public class QuestionRepositoryGateway implements QuestionGateway {
                         questionEntityMapper.toEntity(question)
                 )
         );
+    }
+
+    @Override
+    public List<Question> getAllQuestion() {
+        return questionRepository.findAll().stream()
+                .map(questionEntityMapper::toDomain)
+                .toList();
     }
 }
