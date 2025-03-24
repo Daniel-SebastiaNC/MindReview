@@ -1,10 +1,7 @@
 package br.com.dev.danielsebastian.MindReview.infra.beans;
 
 import br.com.dev.danielsebastian.MindReview.core.gateway.QuestionGateway;
-import br.com.dev.danielsebastian.MindReview.core.usecases.CreateQuestionUsecase;
-import br.com.dev.danielsebastian.MindReview.core.usecases.CreateQuestionUsecaseImpl;
-import br.com.dev.danielsebastian.MindReview.core.usecases.GetAllQuestionUsecase;
-import br.com.dev.danielsebastian.MindReview.core.usecases.GetAllQuestionUsecaseImpl;
+import br.com.dev.danielsebastian.MindReview.core.usecases.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,5 +16,10 @@ public class BeanConfiguration {
     @Bean
     public GetAllQuestionUsecase getAllQuestionUsecase(QuestionGateway questionGateway){
         return new GetAllQuestionUsecaseImpl(questionGateway);
+    }
+
+    @Bean
+    public GetQuestionByIdUsecase getQuestionByIdUsecase(QuestionGateway questionGateway){
+        return new GetQuestionByIdUsecaseImpl(questionGateway);
     }
 }
