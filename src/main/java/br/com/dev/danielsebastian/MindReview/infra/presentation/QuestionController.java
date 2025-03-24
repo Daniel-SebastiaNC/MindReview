@@ -3,6 +3,7 @@ package br.com.dev.danielsebastian.MindReview.infra.presentation;
 import br.com.dev.danielsebastian.MindReview.core.domians.Question;
 import br.com.dev.danielsebastian.MindReview.core.usecases.CreateQuestionUsecase;
 import br.com.dev.danielsebastian.MindReview.core.usecases.GetAllQuestionUsecase;
+import br.com.dev.danielsebastian.MindReview.core.usecases.GetQuestionByIdUsecase;
 import br.com.dev.danielsebastian.MindReview.infra.dtos.QuestionDto;
 import br.com.dev.danielsebastian.MindReview.infra.mappers.QuestionDtoMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class QuestionController {
 
     private final CreateQuestionUsecase createQuestionUsecase;
     private final GetAllQuestionUsecase getAllQuestionUsecase;
+    private final GetQuestionByIdUsecase getQuestionByIdUsecase;
     private final QuestionDtoMapper questionDtoMapper;
 
     @PostMapping("/add")
@@ -34,6 +36,15 @@ public class QuestionController {
                 getAllQuestionUsecase.execute().stream()
                         .map(questionDtoMapper::toDto)
                         .toList()
+        );
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<QuestionDto> getQuestionById(@PathVariable Long id){
+        return ResponseEntity.ok(
+                questionDtoMapper.toDto(
+                        getQuestionByIdUsecase.execute(id)
+                )
         );
     }
 }
