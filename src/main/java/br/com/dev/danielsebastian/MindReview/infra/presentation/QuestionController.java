@@ -2,6 +2,7 @@ package br.com.dev.danielsebastian.MindReview.infra.presentation;
 
 import br.com.dev.danielsebastian.MindReview.core.domians.Question;
 import br.com.dev.danielsebastian.MindReview.core.usecases.CreateQuestionUsecase;
+import br.com.dev.danielsebastian.MindReview.core.usecases.DeleteQuestionByIdUsecase;
 import br.com.dev.danielsebastian.MindReview.core.usecases.GetAllQuestionUsecase;
 import br.com.dev.danielsebastian.MindReview.core.usecases.GetQuestionByIdUsecase;
 import br.com.dev.danielsebastian.MindReview.infra.dtos.QuestionDto;
@@ -21,6 +22,7 @@ public class QuestionController {
     private final CreateQuestionUsecase createQuestionUsecase;
     private final GetAllQuestionUsecase getAllQuestionUsecase;
     private final GetQuestionByIdUsecase getQuestionByIdUsecase;
+    private final DeleteQuestionByIdUsecase deleteQuestionByIdUsecase;
     private final QuestionDtoMapper questionDtoMapper;
 
     @PostMapping("/add")
@@ -46,5 +48,11 @@ public class QuestionController {
                         getQuestionByIdUsecase.execute(id)
                 )
         );
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteQuestionById(@PathVariable Long id){
+        deleteQuestionByIdUsecase.execute(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
