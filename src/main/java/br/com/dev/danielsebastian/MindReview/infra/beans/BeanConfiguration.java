@@ -22,4 +22,9 @@ public class BeanConfiguration {
     public GetQuestionByIdUsecase getQuestionByIdUsecase(QuestionGateway questionGateway){
         return new GetQuestionByIdUsecaseImpl(questionGateway);
     }
+
+    @Bean
+    public DeleteQuestionByIdUsecase deleteQuestionByIdUsecase(QuestionGateway questionGateway){
+        return new DeleteQuestionByIdUsecaseImpl(questionGateway);
+    }
 }
