@@ -40,4 +40,9 @@ public class QuestionRepositoryGateway implements QuestionGateway {
         return questionRepository.findById(id).map(questionEntityMapper::toDomain);
     }
 
+    @Override
+    public void deleteQuestionById(Question question) {
+        questionRepository.delete(questionEntityMapper.toEntity(question));
+    }
+
 }

@@ -10,5 +10,5 @@ public interface QuestionGateway {
     Question createQuestion(Question question);
     List<Question> getAllQuestion();
     Optional<Question> getQuestionById(Long id);
-
+    void deleteQuestionById(Question question);
 }
