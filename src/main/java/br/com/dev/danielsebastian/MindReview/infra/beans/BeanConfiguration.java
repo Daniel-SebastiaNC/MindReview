@@ -27,4 +27,9 @@ public class BeanConfiguration {
     public DeleteQuestionByIdUsecase deleteQuestionByIdUsecase(QuestionGateway questionGateway){
         return new DeleteQuestionByIdUsecaseImpl(questionGateway);
     }
+
+    @Bean
+    public UpdateQuestionUsecase updateQuestionUsecase(QuestionGateway questionGateway){
+        return new UpdateQuestionUsecaseImpl(questionGateway);
+    }
 }
