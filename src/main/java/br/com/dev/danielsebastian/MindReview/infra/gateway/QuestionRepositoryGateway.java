@@ -2,7 +2,6 @@ package br.com.dev.danielsebastian.MindReview.infra.gateway;
 
 import br.com.dev.danielsebastian.MindReview.core.domians.Question;
 import br.com.dev.danielsebastian.MindReview.core.gateway.QuestionGateway;
-import br.com.dev.danielsebastian.MindReview.infra.exeception.DataNotFoundException;
 import br.com.dev.danielsebastian.MindReview.infra.mappers.QuestionEntityMapper;
 import br.com.dev.danielsebastian.MindReview.infra.persistence.QuestionEntity;
 import br.com.dev.danielsebastian.MindReview.infra.persistence.QuestionRepository;
