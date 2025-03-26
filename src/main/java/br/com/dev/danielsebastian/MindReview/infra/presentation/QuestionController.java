@@ -1,10 +1,7 @@
 package br.com.dev.danielsebastian.MindReview.infra.presentation;
 
 import br.com.dev.danielsebastian.MindReview.core.domians.Question;
-import br.com.dev.danielsebastian.MindReview.core.usecases.CreateQuestionUsecase;
-import br.com.dev.danielsebastian.MindReview.core.usecases.DeleteQuestionByIdUsecase;
-import br.com.dev.danielsebastian.MindReview.core.usecases.GetAllQuestionUsecase;
-import br.com.dev.danielsebastian.MindReview.core.usecases.GetQuestionByIdUsecase;
+import br.com.dev.danielsebastian.MindReview.core.usecases.*;
 import br.com.dev.danielsebastian.MindReview.infra.dtos.QuestionDto;
 import br.com.dev.danielsebastian.MindReview.infra.mappers.QuestionDtoMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +20,7 @@ public class QuestionController {
     private final GetAllQuestionUsecase getAllQuestionUsecase;
     private final GetQuestionByIdUsecase getQuestionByIdUsecase;
     private final DeleteQuestionByIdUsecase deleteQuestionByIdUsecase;
+    private final UpdateQuestionUsecase updateQuestionUsecase;
     private final QuestionDtoMapper questionDtoMapper;
 
     @PostMapping("/add")
@@ -54,5 +52,11 @@ public class QuestionController {
     public ResponseEntity<Void> deleteQuestionById(@PathVariable Long id){
         deleteQuestionByIdUsecase.execute(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<QuestionDto> updateQuestion(@PathVariable Long id, @RequestBody QuestionDto questionDto){
+        Question questionUpdate = updateQuestionUsecase.execute(id, questionDtoMapper.toDomain(questionDto));
+        return ResponseEntity.ok(questionDtoMapper.toDto(questionUpdate));
     }
 }
