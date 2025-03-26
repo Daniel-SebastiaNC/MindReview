@@ -11,4 +11,5 @@ public interface QuestionGateway {
     List<Question> getAllQuestion();
     Optional<Question> getQuestionById(Long id);
     void deleteQuestionById(Question question);
+    Question updateQuestion(Question questionById, Question question);
 }

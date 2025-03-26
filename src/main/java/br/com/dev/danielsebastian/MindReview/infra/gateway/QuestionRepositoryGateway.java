@@ -45,4 +45,15 @@ public class QuestionRepositoryGateway implements QuestionGateway {
         questionRepository.delete(questionEntityMapper.toEntity(question));
     }
 
+    @Override
+    public Question updateQuestion(Question questionById, Question question) {
+        QuestionEntity entity = questionEntityMapper.toEntity(questionById);
+
+        entity.setText(question.text());
+        entity.setResponse(question.response());
+        entity.setDifficultyQuestion(question.difficultyQuestion());
+
+        return questionEntityMapper.toDomain(questionRepository.save(entity));
+    }
+
 }
