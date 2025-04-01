@@ -1,0 +1,10 @@
+ALTER TABLE tb_question
+ADD COLUMN time_do TIMESTAMP NOT NULL;
+
+ALTER TABLE tb_question
+ADD COLUMN time_delay VARCHAR(8) NOT NULL;
+
+ALTER TABLE tb_question
+ADD COLUMN priority INT NOT NULL;
+
+
