@@ -1,10 +1,13 @@
 package br.com.dev.danielsebastian.MindReview.infra.persistence;
 
 import br.com.dev.danielsebastian.MindReview.core.enuns.DifficultyQuestion;
+import br.com.dev.danielsebastian.MindReview.core.enuns.TimeDelay;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -27,4 +30,13 @@ public class QuestionEntity {
     @Enumerated(EnumType.STRING)
     private DifficultyQuestion difficultyQuestion;
 
+    @Column(nullable = false, name = "time_do")
+    private LocalDateTime timeDo;
+
+    @Column(name = "time_delay", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TimeDelay timeDelay;
+
+    @Column(nullable = false)
+    private int priority;
 }

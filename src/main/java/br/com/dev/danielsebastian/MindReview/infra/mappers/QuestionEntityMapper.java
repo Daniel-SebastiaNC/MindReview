@@ -1,8 +1,11 @@
 package br.com.dev.danielsebastian.MindReview.infra.mappers;
 
 import br.com.dev.danielsebastian.MindReview.core.domians.Question;
+import br.com.dev.danielsebastian.MindReview.core.enuns.TimeDelay;
 import br.com.dev.danielsebastian.MindReview.infra.persistence.QuestionEntity;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @Component
 public class QuestionEntityMapper {
@@ -11,7 +14,10 @@ public class QuestionEntityMapper {
                 questionEntity.getId(),
                 questionEntity.getText(),
                 questionEntity.getResponse(),
-                questionEntity.getDifficultyQuestion()
+                questionEntity.getDifficultyQuestion(),
+                questionEntity.getTimeDo(),
+                questionEntity.getTimeDelay(),
+                questionEntity.getPriority()
         );
     }
 
@@ -20,7 +26,10 @@ public class QuestionEntityMapper {
                 question.id(),
                 question.text(),
                 question.response(),
-                question.difficultyQuestion()
+                question.difficultyQuestion(),
+                question.timeDo(),
+                question.timeDelay(),
+                question.priority()
         );
     }
 }

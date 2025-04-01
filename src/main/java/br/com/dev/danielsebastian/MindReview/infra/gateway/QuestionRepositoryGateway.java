@@ -1,6 +1,7 @@
 package br.com.dev.danielsebastian.MindReview.infra.gateway;
 
 import br.com.dev.danielsebastian.MindReview.core.domians.Question;
+import br.com.dev.danielsebastian.MindReview.core.enuns.TimeDelay;
 import br.com.dev.danielsebastian.MindReview.core.gateway.QuestionGateway;
 import br.com.dev.danielsebastian.MindReview.infra.mappers.QuestionEntityMapper;
 import br.com.dev.danielsebastian.MindReview.infra.persistence.QuestionEntity;
@@ -8,6 +9,7 @@ import br.com.dev.danielsebastian.MindReview.infra.persistence.QuestionRepositor
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,10 +22,12 @@ public class QuestionRepositoryGateway implements QuestionGateway {
 
     @Override
     public Question createQuestion(Question question) {
+        QuestionEntity entity = questionEntityMapper.toEntity(question);
+        entity.setPriority(5);
+        entity.setTimeDo(LocalDateTime.now());
+        entity.setTimeDelay(TimeDelay.NOW);
         return questionEntityMapper.toDomain(
-                questionRepository.save(
-                        questionEntityMapper.toEntity(question)
-                )
+                questionRepository.save(entity)
         );
     }
 

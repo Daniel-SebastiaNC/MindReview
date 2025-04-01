@@ -11,7 +11,10 @@ public class QuestionDtoMapper {
                 questionDto.id(),
                 questionDto.text(),
                 questionDto.response(),
-                questionDto.difficultyQuestion()
+                questionDto.difficultyQuestion(),
+                questionDto.timeDo(),
+                questionDto.timeDelay(),
+                questionDto.priority()
         );
     }
 
@@ -20,7 +23,10 @@ public class QuestionDtoMapper {
                 question.id(),
                 question.text(),
                 question.response(),
-                question.difficultyQuestion()
+                question.difficultyQuestion(),
+                question.timeDo(),
+                question.timeDelay(),
+                question.priority()
         );
     }
 
