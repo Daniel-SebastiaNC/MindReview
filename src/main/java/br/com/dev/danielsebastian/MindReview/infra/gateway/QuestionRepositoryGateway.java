@@ -26,6 +26,7 @@ public class QuestionRepositoryGateway implements QuestionGateway {
         entity.setPriority(5);
         entity.setTimeDo(LocalDateTime.now());
         entity.setTimeDelay(TimeDelay.NOW);
+        entity.setNeedReview(true);
         return questionEntityMapper.toDomain(
                 questionRepository.save(entity)
         );
@@ -57,6 +58,54 @@ public class QuestionRepositoryGateway implements QuestionGateway {
         entity.setDifficultyQuestion(question.difficultyQuestion());
 
         return questionEntityMapper.toDomain(questionRepository.save(entity));
+    }
+
+    @Override
+    public void updateQuestionPriority() {
+        List<QuestionEntity> all = questionRepository.findAll();
+        for (QuestionEntity questionEntity : all) {
+            LocalDateTime now = LocalDateTime.now();
+            switch (questionEntity.getTimeDelay()){
+                case NOW:
+                    questionEntity.setPriority(5);
+                    questionEntity.setNeedReview(true);
+                    break;
+                case DAY:
+                    if (questionEntity.getTimeDo().plusDays(1).isAfter(now)){
+                        questionEntity.setPriority(4);
+                        questionEntity.setNeedReview(true);
+                    }
+                    break;
+                case ONE_WEEK:
+                    if (questionEntity.getTimeDo().plusWeeks(1).isAfter(now)){
+                        questionEntity.setPriority(3);
+                        questionEntity.setNeedReview(true);
+                    }
+                    break;
+                case TWO_WEEK:
+                    if (questionEntity.getTimeDo().plusWeeks(2).isAfter(now)){
+                        questionEntity.setPriority(2);
+                        questionEntity.setNeedReview(true);
+                    }
+                    break;
+                case MONTH:
+                    if (questionEntity.getTimeDo().plusMonths(1).isAfter(now)){
+                        questionEntity.setPriority(1);
+                        questionEntity.setNeedReview(true);
+                    }
+                    break;
+                default:
+                    questionEntity.setPriority(6);
+                    break;
+            }
+
+            questionRepository.save(questionEntity);
+        }
+    }
+
+    @Override
+    public List<Question> getAllQuestionNeedReview() {
+        return questionRepository.findAllByIsNeedReviewOrderByPriorityAsc(true).stream().map(questionEntityMapper::toDomain).toList();
     }
 
 }
