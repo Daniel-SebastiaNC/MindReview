@@ -11,5 +11,6 @@ public record Question(Long id,
                        DifficultyQuestion difficultyQuestion,
                        LocalDateTime timeDo,
                        TimeDelay timeDelay,
-                       int priority) {
+                       int priority,
+                       boolean isNeedReview) {
 }

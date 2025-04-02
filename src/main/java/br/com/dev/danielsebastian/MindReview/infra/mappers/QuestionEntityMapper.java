@@ -17,7 +17,8 @@ public class QuestionEntityMapper {
                 questionEntity.getDifficultyQuestion(),
                 questionEntity.getTimeDo(),
                 questionEntity.getTimeDelay(),
-                questionEntity.getPriority()
+                questionEntity.getPriority(),
+                questionEntity.isNeedReview()
         );
     }
 
@@ -29,7 +30,8 @@ public class QuestionEntityMapper {
                 question.difficultyQuestion(),
                 question.timeDo(),
                 question.timeDelay(),
-                question.priority()
+                question.priority(),
+                question.isNeedReview()
         );
     }
 }

@@ -39,4 +39,7 @@ public class QuestionEntity {
 
     @Column(nullable = false)
     private int priority;
+
+    @Column(name = "is_need_review", nullable = false, columnDefinition="boolean default true")
+    boolean isNeedReview;
 }

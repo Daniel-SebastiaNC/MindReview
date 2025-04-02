@@ -14,7 +14,8 @@ public class QuestionDtoMapper {
                 questionDto.difficultyQuestion(),
                 questionDto.timeDo(),
                 questionDto.timeDelay(),
-                questionDto.priority()
+                questionDto.priority(),
+                questionDto.isNeedReview()
         );
     }
 
@@ -26,7 +27,8 @@ public class QuestionDtoMapper {
                 question.difficultyQuestion(),
                 question.timeDo(),
                 question.timeDelay(),
-                question.priority()
+                question.priority(),
+                question.isNeedReview()
         );
     }
 
