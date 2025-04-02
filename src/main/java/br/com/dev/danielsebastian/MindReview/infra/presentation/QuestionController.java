@@ -21,6 +21,7 @@ public class QuestionController {
     private final GetQuestionByIdUsecase getQuestionByIdUsecase;
     private final DeleteQuestionByIdUsecase deleteQuestionByIdUsecase;
     private final UpdateQuestionUsecase updateQuestionUsecase;
+    private final GetAllQuestionNeedReviewUsecase getAllQuestionNeedReviewUsecase;
     private final QuestionDtoMapper questionDtoMapper;
 
     @PostMapping("/add")
@@ -58,5 +59,12 @@ public class QuestionController {
     public ResponseEntity<QuestionDto> updateQuestion(@PathVariable Long id, @RequestBody QuestionDto questionDto){
         Question questionUpdate = updateQuestionUsecase.execute(id, questionDtoMapper.toDomain(questionDto));
         return ResponseEntity.ok(questionDtoMapper.toDto(questionUpdate));
+    }
+
+    @GetMapping("/all-review")
+    public ResponseEntity<List<QuestionDto>> getAllQuestionNeedReview(){
+        return ResponseEntity.ok(
+                getAllQuestionNeedReviewUsecase.execute().stream().map(questionDtoMapper::toDto).toList()
+        );
     }
 }
