@@ -32,4 +32,9 @@ public class BeanConfiguration {
     public UpdateQuestionUsecase updateQuestionUsecase(QuestionGateway questionGateway){
         return new UpdateQuestionUsecaseImpl(questionGateway);
     }
+
+    @Bean
+    public GetAllQuestionNeedReviewUsecase getAllQuestionNeedReview(QuestionGateway questionGateway){
+        return new GetAllQuestionNeedReviewUsecaseImpl(questionGateway);
+    }
 }
