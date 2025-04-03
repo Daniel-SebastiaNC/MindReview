@@ -16,4 +16,5 @@ public interface QuestionGateway {
     void updateQuestionPriority();
     List<Question> getAllQuestionNeedReview();
 
+    Question updateQuestionTimeDalyAndTimeDo(Question question);
 }

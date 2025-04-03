@@ -108,4 +108,32 @@ public class QuestionRepositoryGateway implements QuestionGateway {
         return questionRepository.findAllByIsNeedReviewOrderByPriorityAsc(true).stream().map(questionEntityMapper::toDomain).toList();
     }
 
+    @Override
+    public Question updateQuestionTimeDalyAndTimeDo(Question question) {
+        QuestionEntity entity = questionEntityMapper.toEntity(question);
+        entity.setNeedReview(false);
+        entity.setTimeDo(LocalDateTime.now());
+        switch (entity.getTimeDelay()){
+            case NOW:
+                entity.setTimeDelay(TimeDelay.DAY);
+                break;
+            case DAY:
+                entity.setTimeDelay(TimeDelay.ONE_WEEK);
+                break;
+            case ONE_WEEK:
+                entity.setTimeDelay(TimeDelay.TWO_WEEK);
+                break;
+            case TWO_WEEK:
+                entity.setTimeDelay(TimeDelay.MONTH);
+                break;
+            /*
+            TODO: after new time delay
+            case MONTH:
+                break;
+                */
+        }
+
+        return questionEntityMapper.toDomain(questionRepository.save(entity));
+    }
+
 }
