@@ -2,14 +2,18 @@ package br.com.dev.danielsebastian.MindReview.infra.presentation;
 
 import br.com.dev.danielsebastian.MindReview.core.domians.Question;
 import br.com.dev.danielsebastian.MindReview.core.usecases.*;
+import br.com.dev.danielsebastian.MindReview.infra.dtos.AnswerQuestionDto;
 import br.com.dev.danielsebastian.MindReview.infra.dtos.QuestionDto;
+import br.com.dev.danielsebastian.MindReview.infra.mappers.AnswerQuestionDtoMapper;
 import br.com.dev.danielsebastian.MindReview.infra.mappers.QuestionDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,7 +26,10 @@ public class QuestionController {
     private final DeleteQuestionByIdUsecase deleteQuestionByIdUsecase;
     private final UpdateQuestionUsecase updateQuestionUsecase;
     private final GetAllQuestionNeedReviewUsecase getAllQuestionNeedReviewUsecase;
+    private final AnswerQuestionUsecase answerQuestionUsecase;
     private final QuestionDtoMapper questionDtoMapper;
+    private final AnswerQuestionDtoMapper answerQuestionDtoMapper;
+
 
     @PostMapping("/add")
     public ResponseEntity<QuestionDto> createQuestion(@RequestBody QuestionDto questionDto) {
@@ -66,5 +73,17 @@ public class QuestionController {
         return ResponseEntity.ok(
                 getAllQuestionNeedReviewUsecase.execute().stream().map(questionDtoMapper::toDto).toList()
         );
+    }
+
+    @PostMapping("/answer/{id}")
+    public ResponseEntity<Map<String, Object>> answerQuestion(@PathVariable Long id, @RequestBody AnswerQuestionDto answerQuestionDto){
+        Map<String, Object> response = new HashMap<>();
+
+        Question question = answerQuestionUsecase.execute(id, answerQuestionDtoMapper.toDomain(answerQuestionDto));
+
+        response.put("Result: ", !question.isNeedReview());
+        response.put("Response: ", question);
+
+        return ResponseEntity.ok(response);
     }
 }
