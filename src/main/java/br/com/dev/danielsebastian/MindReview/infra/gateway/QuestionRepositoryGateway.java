@@ -71,25 +71,25 @@ public class QuestionRepositoryGateway implements QuestionGateway {
                     questionEntity.setNeedReview(true);
                     break;
                 case DAY:
-                    if (questionEntity.getTimeDo().plusDays(1).isAfter(now)){
+                    if (questionEntity.getTimeDo().plusDays(1).isBefore(now)){
                         questionEntity.setPriority(4);
                         questionEntity.setNeedReview(true);
                     }
                     break;
                 case ONE_WEEK:
-                    if (questionEntity.getTimeDo().plusWeeks(1).isAfter(now)){
+                    if (questionEntity.getTimeDo().plusWeeks(1).isBefore(now)){
                         questionEntity.setPriority(3);
                         questionEntity.setNeedReview(true);
                     }
                     break;
                 case TWO_WEEK:
-                    if (questionEntity.getTimeDo().plusWeeks(2).isAfter(now)){
+                    if (questionEntity.getTimeDo().plusWeeks(2).isBefore(now)){
                         questionEntity.setPriority(2);
                         questionEntity.setNeedReview(true);
                     }
                     break;
                 case MONTH:
-                    if (questionEntity.getTimeDo().plusMonths(1).isAfter(now)){
+                    if (questionEntity.getTimeDo().plusMonths(1).isBefore(now)){
                         questionEntity.setPriority(1);
                         questionEntity.setNeedReview(true);
                     }
