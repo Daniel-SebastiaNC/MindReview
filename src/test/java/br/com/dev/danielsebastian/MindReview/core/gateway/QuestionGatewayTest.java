@@ -6,6 +6,8 @@ import br.com.dev.danielsebastian.MindReview.core.enuns.TimeDelay;
 import br.com.dev.danielsebastian.MindReview.infra.mappers.QuestionEntityMapper;
 import br.com.dev.danielsebastian.MindReview.infra.persistence.QuestionRepository;
 import jakarta.persistence.EntityManager;
+import org.aspectj.lang.annotation.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,6 +33,9 @@ class QuestionGatewayTest {
 
     @Autowired
     QuestionGateway gateway;
+
+    @Autowired
+    EntityManager entityManager;
 
     @Test
     @DisplayName("should create question with default values")
@@ -57,6 +63,8 @@ class QuestionGatewayTest {
         assertEquals(TimeDelay.NOW, result.timeDelay());
         assertEquals(5, result.priority());
         assertTrue(result.isNeedReview());
+
+        questionRepository.deleteAll();
     }
 
     @Test
@@ -70,12 +78,35 @@ class QuestionGatewayTest {
 
         // Assert
         assertEquals(2, allQuestion.size());
-        assertEquals(question1.id(), allQuestion.get(0).id());
-        assertEquals(question2.id(), allQuestion.get(1).id());
+        assertEquals(question1, allQuestion.get(0));
+        assertEquals(question2, allQuestion.get(1));
     }
 
     @Test
-    void getQuestionById() {
+    @DisplayName("should return question when ID exists")
+    void getQuestionByIdIsPresent() {
+        // Arrange
+        Question question1 = persistQuestion(TimeDelay.NOW);
+
+        // Act
+        Optional<Question> questionById = gateway.getQuestionById(question1.id());
+
+        // Assert
+        assertTrue(questionById.isPresent());
+        assertEquals(question1, questionById.get());
+    }
+
+    @Test
+    @DisplayName("should return empty when ID does not exist")
+    void getQuestionByIdIsNull() {
+        // Arrange
+        Question question1 = persistQuestion(TimeDelay.NOW);
+
+        // Act
+        Optional<Question> questionById = gateway.getQuestionById(0L);
+
+        // Assert
+        assertTrue(questionById.isEmpty());
     }
 
     @Test
@@ -104,7 +135,7 @@ class QuestionGatewayTest {
                 "text test",
                 "response test",
                 DifficultyQuestion.EASY,
-                LocalDateTime.now(),
+                LocalDateTime.of(2025, 4, 8, 10, 17, 54, 788389000),
                 timeDelay,
                 0,
                 false
