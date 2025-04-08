@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,9 +30,6 @@ class QuestionGatewayTest {
 
     @Autowired
     QuestionGateway gateway;
-
-    @Autowired
-    EntityManager entityManager;
 
     @Test
     @DisplayName("should create question with default values")
@@ -62,7 +60,18 @@ class QuestionGatewayTest {
     }
 
     @Test
+    @DisplayName("should return all saved questions")
     void getAllQuestion() {
+        // Arrange
+        Question question1 = persistQuestion(TimeDelay.NOW);
+        Question question2 = persistQuestion(TimeDelay.DAY);
+        // Act
+        List<Question> allQuestion = gateway.getAllQuestion();
+
+        // Assert
+        assertEquals(2, allQuestion.size());
+        assertEquals(question1.id(), allQuestion.get(0).id());
+        assertEquals(question2.id(), allQuestion.get(1).id());
     }
 
     @Test
@@ -87,5 +96,24 @@ class QuestionGatewayTest {
 
     @Test
     void updateQuestionTimeDalyAndTimeDo() {
+    }
+
+    private Question persistQuestion(TimeDelay timeDelay){
+        Question input = new Question(
+                null,
+                "text test",
+                "response test",
+                DifficultyQuestion.EASY,
+                LocalDateTime.now(),
+                timeDelay,
+                0,
+                false
+        );
+
+        return mapper.toDomain(
+                questionRepository.save(
+                        mapper.toEntity(input)
+                )
+        );
     }
 }
