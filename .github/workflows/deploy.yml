@@ -8,8 +8,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
       - name: Configure Java
         uses: actions/setup-java@v3
@@ -20,14 +21,14 @@ jobs:
       - name: Build project
         run: mvn clean install
 
-      - name: Run all tests
-        run: mvn test
-
-      - name: Build Artifact
-        run: mvn clean package
-
-      - name: Store Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: myapp-jar
-          path: target/*.jar
+#      - name: Run all tests
+#        run: mvn test
+#
+#      - name: Build Artifact
+#        run: mvn clean package
+#
+#      - name: Store Artifact
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: myapp-jar
+#          path: target/*.jar
