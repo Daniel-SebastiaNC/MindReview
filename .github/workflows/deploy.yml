@@ -1,0 +1,33 @@
+name: Build and Test Project
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build project
+        run: mvn clean install
+
+      - name: Run all tests
+        run: mvn test
+
+      - name: Build Artifact
+        run: mvn clean package
+
+      - name: Store Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: myapp-jar
+          path: target/*.jar
