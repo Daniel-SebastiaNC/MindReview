@@ -23,10 +23,6 @@ public class QuestionRepositoryGateway implements QuestionGateway {
     @Override
     public Question createQuestion(Question question) {
         QuestionEntity entity = questionEntityMapper.toEntity(question);
-        entity.setPriority(5);
-        entity.setTimeDo(LocalDateTime.now());
-        entity.setTimeDelay(TimeDelay.NOW);
-        entity.setNeedReview(true);
         return questionEntityMapper.toDomain(
                 questionRepository.save(entity)
         );
