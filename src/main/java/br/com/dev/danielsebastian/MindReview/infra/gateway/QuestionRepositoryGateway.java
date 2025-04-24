@@ -46,17 +46,6 @@ public class QuestionRepositoryGateway implements QuestionGateway {
     }
 
     @Override
-    public Question updateQuestion(Question questionById, Question question) {
-        QuestionEntity entity = questionEntityMapper.toEntity(questionById);
-
-        entity.setText(question.text());
-        entity.setResponse(question.response());
-        entity.setDifficultyQuestion(question.difficultyQuestion());
-
-        return questionEntityMapper.toDomain(questionRepository.save(entity));
-    }
-
-    @Override
     public void updateQuestionPriority() {
         List<QuestionEntity> all = questionRepository.findAll();
         for (QuestionEntity questionEntity : all) {
