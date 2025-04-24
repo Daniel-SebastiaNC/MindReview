@@ -1,7 +1,7 @@
 name: Build and Test Project
 
 on:
-  push:
+  pull_request:
     branches: [main]
 
 jobs:
