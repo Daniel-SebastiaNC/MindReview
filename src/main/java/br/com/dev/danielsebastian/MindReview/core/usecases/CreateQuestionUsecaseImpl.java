@@ -16,7 +16,7 @@ public class CreateQuestionUsecaseImpl implements CreateQuestionUsecase{
 
     @Override
     public Question execute(Question question) {
-        return gateway.createQuestion(new Question(
+        return gateway.saveQuestion(new Question(
                 question.id(),
                 question.text(),
                 question.response(),

@@ -21,7 +21,7 @@ public class QuestionRepositoryGateway implements QuestionGateway {
     private final QuestionEntityMapper questionEntityMapper;
 
     @Override
-    public Question createQuestion(Question question) {
+    public Question saveQuestion(Question question) {
         QuestionEntity entity = questionEntityMapper.toEntity(question);
         return questionEntityMapper.toDomain(
                 questionRepository.save(entity)
