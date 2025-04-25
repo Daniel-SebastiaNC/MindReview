@@ -33,7 +33,7 @@ class QuestionRepositoryGatewayTest {
 
     @Test
     void saveQuestionSuccess() {
-        Question question = this.createQuestionEntity();
+        Question question = this.createQuestion();
 
         Question questionSave = questionRepositoryGateway.saveQuestion(question);
 
@@ -72,7 +72,7 @@ class QuestionRepositoryGatewayTest {
     void updateQuestionTimeDalyAndTimeDo() {
     }
 
-    private Question createQuestionEntity() {
+    private Question createQuestion() {
         return new Question(null,"text test", "response test", DifficultyQuestion.EASY, LocalDateTime.now(), TimeDelay.NOW, 1, true);
     }
 }
