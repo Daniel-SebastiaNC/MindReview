@@ -3,21 +3,21 @@ package br.com.dev.danielsebastian.MindReview.infra.gateway;
 import br.com.dev.danielsebastian.MindReview.core.domians.Question;
 import br.com.dev.danielsebastian.MindReview.core.enuns.DifficultyQuestion;
 import br.com.dev.danielsebastian.MindReview.core.enuns.TimeDelay;
-import br.com.dev.danielsebastian.MindReview.infra.mappers.QuestionEntityMapper;
 import br.com.dev.danielsebastian.MindReview.infra.persistence.QuestionEntity;
 import br.com.dev.danielsebastian.MindReview.infra.persistence.QuestionRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -31,7 +31,13 @@ class QuestionRepositoryGatewayTest {
     @Autowired
     EntityManager entityManager;
 
+    @AfterEach
+    void resetDB() {
+        entityManager.createNativeQuery("TRUNCATE TABLE tb_question RESTART IDENTITY").executeUpdate();
+    }
+
     @Test
+    @Transactional
     void saveQuestionSuccess() {
         Question question = this.createQuestion();
 
@@ -49,26 +55,50 @@ class QuestionRepositoryGatewayTest {
     }
 
     @Test
-    void getAllQuestion() {
+    @Transactional
+    void getAllQuestionFoundedData() {
+        this.createQuestionEntity();
+        this.createQuestionEntity();
+        this.createQuestionEntity();
+
+        List<Question> allQuestion = questionRepositoryGateway.getAllQuestion();
+
+        assertEquals(3, allQuestion.size());
+        assertEquals(1, allQuestion.get(0).id());
+        assertEquals(2, allQuestion.get(1).id());
+        assertEquals(3, allQuestion.get(2).id());
     }
 
     @Test
+    @Transactional
+    void getAllQuestionNotFoundedData() {
+        List<Question> allQuestion = questionRepositoryGateway.getAllQuestion();
+
+        assertTrue(allQuestion.isEmpty());
+    }
+
+    @Test
+    @Transactional
     void getQuestionById() {
     }
 
     @Test
+    @Transactional
     void deleteQuestionById() {
     }
 
     @Test
+    @Transactional
     void updateQuestionPriority() {
     }
 
     @Test
+    @Transactional
     void getAllQuestionNeedReview() {
     }
 
     @Test
+    @Transactional
     void updateQuestionTimeDalyAndTimeDo() {
     }
 
