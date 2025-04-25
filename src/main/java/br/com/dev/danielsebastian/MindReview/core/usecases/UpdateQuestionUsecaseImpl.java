@@ -16,6 +16,15 @@ public class UpdateQuestionUsecaseImpl implements UpdateQuestionUsecase{
     public Question execute(Long id, Question question) {
         Question questionById = gateway.getQuestionById(id).orElseThrow(() -> new DataNotFoundException("Question with id: " + id + " Not Found"));
 
-        return gateway.updateQuestion(questionById, question);
+        return gateway.saveQuestion(new Question(
+                questionById.id(),
+                question.text().isEmpty() ? questionById.text() : question.text(),
+                question.response().isEmpty() ? questionById.response() : question.response(),
+                String.valueOf(question.difficultyQuestion()).isEmpty() ? questionById.difficultyQuestion() : question.difficultyQuestion(),
+                questionById.timeDo(),
+                questionById.timeDelay(),
+                questionById.priority(),
+                questionById.isNeedReview())
+        );
     }
 }

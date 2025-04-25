@@ -7,13 +7,12 @@ import java.util.Optional;
 
 public interface QuestionGateway {
 
-    Question createQuestion(Question question);
+    Question saveQuestion(Question question);
     List<Question> getAllQuestion();
     Optional<Question> getQuestionById(Long id);
     void deleteQuestionById(Question question);
-    Question updateQuestion(Question questionById, Question question);
 
-    void updateQuestionPriority();
+    void updateQuestionPriority(Question question, int priority, int days);
     List<Question> getAllQuestionNeedReview();
 
     Question updateQuestionTimeDalyAndTimeDo(Question question);

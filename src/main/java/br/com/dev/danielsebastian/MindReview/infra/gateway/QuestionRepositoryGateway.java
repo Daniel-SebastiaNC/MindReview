@@ -21,12 +21,8 @@ public class QuestionRepositoryGateway implements QuestionGateway {
     private final QuestionEntityMapper questionEntityMapper;
 
     @Override
-    public Question createQuestion(Question question) {
+    public Question saveQuestion(Question question) {
         QuestionEntity entity = questionEntityMapper.toEntity(question);
-        entity.setPriority(5);
-        entity.setTimeDo(LocalDateTime.now());
-        entity.setTimeDelay(TimeDelay.NOW);
-        entity.setNeedReview(true);
         return questionEntityMapper.toDomain(
                 questionRepository.save(entity)
         );
@@ -50,56 +46,13 @@ public class QuestionRepositoryGateway implements QuestionGateway {
     }
 
     @Override
-    public Question updateQuestion(Question questionById, Question question) {
-        QuestionEntity entity = questionEntityMapper.toEntity(questionById);
-
-        entity.setText(question.text());
-        entity.setResponse(question.response());
-        entity.setDifficultyQuestion(question.difficultyQuestion());
-
-        return questionEntityMapper.toDomain(questionRepository.save(entity));
-    }
-
-    @Override
-    public void updateQuestionPriority() {
-        List<QuestionEntity> all = questionRepository.findAll();
-        for (QuestionEntity questionEntity : all) {
-            LocalDateTime now = LocalDateTime.now();
-            switch (questionEntity.getTimeDelay()){
-                case NOW:
-                    questionEntity.setPriority(5);
-                    questionEntity.setNeedReview(true);
-                    break;
-                case DAY:
-                    if (questionEntity.getTimeDo().plusDays(1).isBefore(now)){
-                        questionEntity.setPriority(4);
-                        questionEntity.setNeedReview(true);
-                    }
-                    break;
-                case ONE_WEEK:
-                    if (questionEntity.getTimeDo().plusWeeks(1).isBefore(now)){
-                        questionEntity.setPriority(3);
-                        questionEntity.setNeedReview(true);
-                    }
-                    break;
-                case TWO_WEEK:
-                    if (questionEntity.getTimeDo().plusWeeks(2).isBefore(now)){
-                        questionEntity.setPriority(2);
-                        questionEntity.setNeedReview(true);
-                    }
-                    break;
-                case MONTH:
-                    if (questionEntity.getTimeDo().plusMonths(1).isBefore(now)){
-                        questionEntity.setPriority(1);
-                        questionEntity.setNeedReview(true);
-                    }
-                    break;
-                default:
-                    questionEntity.setPriority(6);
-                    break;
-            }
-
-            questionRepository.save(questionEntity);
+    public void updateQuestionPriority(Question question, int priority, int time) {
+        QuestionEntity entity = questionEntityMapper.toEntity(question);
+        LocalDateTime now = LocalDateTime.now();
+        if (entity.getTimeDo().plusDays(time).isBefore(now)) {
+            entity.setPriority(priority);
+            entity.setNeedReview(true);
+            questionRepository.save(entity);
         }
     }
 

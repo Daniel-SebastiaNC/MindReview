@@ -62,7 +62,7 @@ public class QuestionController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public ResponseEntity<QuestionDto> updateQuestion(@PathVariable Long id, @RequestBody QuestionDto questionDto){
         Question questionUpdate = updateQuestionUsecase.execute(id, questionDtoMapper.toDomain(questionDto));
         return ResponseEntity.ok(questionDtoMapper.toDto(questionUpdate));
