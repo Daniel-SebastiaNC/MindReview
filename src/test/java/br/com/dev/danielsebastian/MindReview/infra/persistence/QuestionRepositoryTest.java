@@ -27,9 +27,9 @@ class QuestionRepositoryTest {
     @Test
     void findAllByIsNeedReviewOrderByPriorityAscDataFounded() {
 
-        createQuestionEntity(true, 2);
-        createQuestionEntity(true, 1);
-        createQuestionEntity(false, 1);
+        this.createQuestionEntity(true, 2);
+        this.createQuestionEntity(true, 1);
+        this.createQuestionEntity(false, 1);
 
 
         List<QuestionEntity> allByIsNeedReviewOrderByPriorityAsc = questionRepository.findAllByIsNeedReviewOrderByPriorityAsc(true);
