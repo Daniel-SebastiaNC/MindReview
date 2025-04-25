@@ -75,4 +75,16 @@ class QuestionRepositoryGatewayTest {
     private Question createQuestion() {
         return new Question(null,"text test", "response test", DifficultyQuestion.EASY, LocalDateTime.now(), TimeDelay.NOW, 1, true);
     }
+
+    private void createQuestionEntity() {
+        QuestionEntity question = new QuestionEntity();
+        question.setText("text test");
+        question.setResponse("response test");
+        question.setDifficultyQuestion(DifficultyQuestion.EASY);
+        question.setTimeDo(LocalDateTime.now());
+        question.setTimeDelay(TimeDelay.NOW);
+        question.setPriority(1);
+        question.setNeedReview(true);
+        this.entityManager.persist(question);
+    }
 }
