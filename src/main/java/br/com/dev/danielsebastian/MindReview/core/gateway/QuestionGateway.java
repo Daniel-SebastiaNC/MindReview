@@ -12,7 +12,7 @@ public interface QuestionGateway {
     Optional<Question> getQuestionById(Long id);
     void deleteQuestionById(Question question);
 
-    void updateQuestionPriority();
+    void updateQuestionPriority(Question question, int priority, int days);
     List<Question> getAllQuestionNeedReview();
 
     Question updateQuestionTimeDalyAndTimeDo(Question question);
