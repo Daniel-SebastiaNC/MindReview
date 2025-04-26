@@ -136,6 +136,30 @@ class QuestionRepositoryGatewayTest {
         assertEquals(1, questionById.get().priority());
     }
 
+    @Test
+    @Transactional
+    void getAllQuestionNeedReviewDataFounded() {
+        this.createQuestionEntity(true);
+        this.createQuestionEntity(false);
+        this.createQuestionEntity(true);
+
+        List<Question> allQuestionNeedReview = questionRepositoryGateway.getAllQuestionNeedReview();
+
+        assertEquals(2, allQuestionNeedReview.size());
+        assertEquals(1, allQuestionNeedReview.get(0).id());
+        assertTrue(allQuestionNeedReview.get(0).isNeedReview());
+        assertEquals(3, allQuestionNeedReview.get(1).id());
+        assertTrue(allQuestionNeedReview.get(1).isNeedReview());
+    }
+
+    @Test
+    @Transactional
+    void getAllQuestionNeedReviewDataNotFounded() {
+        List<Question> allQuestionNeedReview = questionRepositoryGateway.getAllQuestionNeedReview();
+
+        assertTrue(allQuestionNeedReview.isEmpty());
+    }
+
     private Question createQuestion() {
         return new Question(null,"text test", "response test", DifficultyQuestion.EASY, LocalDateTime.now(), TimeDelay.NOW, 1, true);
     }
