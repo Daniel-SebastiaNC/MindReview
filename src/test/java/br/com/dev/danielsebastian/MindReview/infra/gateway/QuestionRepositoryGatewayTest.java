@@ -187,4 +187,16 @@ class QuestionRepositoryGatewayTest {
         question.setNeedReview(b);
         this.entityManager.persist(question);
     }
+
+    private void createQuestionEntity(TimeDelay timeDelay) {
+        QuestionEntity question = new QuestionEntity();
+        question.setText("text test");
+        question.setResponse("response test");
+        question.setDifficultyQuestion(DifficultyQuestion.EASY);
+        question.setTimeDo(LocalDateTime.now());
+        question.setTimeDelay(timeDelay);
+        question.setPriority(1);
+        question.setNeedReview(true);
+        this.entityManager.persist(question);
+    }
 }
