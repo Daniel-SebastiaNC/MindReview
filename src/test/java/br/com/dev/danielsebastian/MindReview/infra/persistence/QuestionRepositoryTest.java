@@ -57,6 +57,4 @@ class QuestionRepositoryTest {
         question.setNeedReview(b);
         this.entityManager.persist(question);
     }
-
-
 }
