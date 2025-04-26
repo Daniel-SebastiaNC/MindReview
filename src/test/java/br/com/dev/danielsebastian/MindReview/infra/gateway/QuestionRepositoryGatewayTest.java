@@ -110,6 +110,32 @@ class QuestionRepositoryGatewayTest {
         assertTrue(questionById.isEmpty());
     }
 
+    @Test
+    @Transactional
+    void updateQuestionPriorityTimePassed() {
+        this.createQuestionEntity();
+        Optional<Question> questionById = questionRepositoryGateway.getQuestionById(1L);
+
+        questionRepositoryGateway.updateQuestionPriority(questionById.get(), 2, 0);
+
+        questionById = questionRepositoryGateway.getQuestionById(1L);
+
+        assertEquals(2, questionById.get().priority());
+    }
+
+    @Test
+    @Transactional
+    void updateQuestionPriorityTimeNotPassed() {
+        this.createQuestionEntity();
+        Optional<Question> questionById = questionRepositoryGateway.getQuestionById(1L);
+
+        questionRepositoryGateway.updateQuestionPriority(questionById.get(), 2, 1);
+
+        questionById = questionRepositoryGateway.getQuestionById(1L);
+
+        assertEquals(1, questionById.get().priority());
+    }
+
     private Question createQuestion() {
         return new Question(null,"text test", "response test", DifficultyQuestion.EASY, LocalDateTime.now(), TimeDelay.NOW, 1, true);
     }
