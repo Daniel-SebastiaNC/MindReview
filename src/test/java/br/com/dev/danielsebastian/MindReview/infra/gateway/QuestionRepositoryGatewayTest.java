@@ -160,6 +160,36 @@ class QuestionRepositoryGatewayTest {
         assertTrue(allQuestionNeedReview.isEmpty());
     }
 
+
+    @Test
+    @Transactional
+    void updateQuestionTimeDalyAndTimeDo() {
+        this.createQuestionEntity(TimeDelay.NOW);
+        this.createQuestionEntity(TimeDelay.DAY);
+        this.createQuestionEntity(TimeDelay.ONE_WEEK);
+        this.createQuestionEntity(TimeDelay.TWO_WEEK);
+        this.createQuestionEntity(TimeDelay.MONTH);
+
+        List<Question> allQuestion = questionRepositoryGateway.getAllQuestion();
+
+        for (Question question : allQuestion) {
+            questionRepositoryGateway.updateQuestionTimeDalyAndTimeDo(question);
+        }
+
+        List<Question> allQuestionUpdate = questionRepositoryGateway.getAllQuestion();
+
+        for (int i = 0; i < allQuestion.size(); i++) {
+            assertFalse(allQuestionUpdate.get(i).isNeedReview());
+            assertTrue(allQuestionUpdate.get(i).timeDo().isAfter(allQuestion.get(i).timeDo()));
+        }
+
+        assertEquals(TimeDelay.DAY, allQuestionUpdate.get(0).timeDelay());
+        assertEquals(TimeDelay.ONE_WEEK, allQuestionUpdate.get(1).timeDelay());
+        assertEquals(TimeDelay.TWO_WEEK, allQuestionUpdate.get(2).timeDelay());
+        assertEquals(TimeDelay.MONTH, allQuestionUpdate.get(3).timeDelay());
+        assertEquals(TimeDelay.MONTH, allQuestionUpdate.get(4).timeDelay());
+    }
+
     private Question createQuestion() {
         return new Question(null,"text test", "response test", DifficultyQuestion.EASY, LocalDateTime.now(), TimeDelay.NOW, 1, true);
     }
