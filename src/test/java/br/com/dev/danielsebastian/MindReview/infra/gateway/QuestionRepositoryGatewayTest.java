@@ -15,9 +15,9 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -79,27 +79,21 @@ class QuestionRepositoryGatewayTest {
 
     @Test
     @Transactional
-    void getQuestionById() {
+    void getQuestionByIdDataFounded() {
+        this.createQuestionEntity();
+
+        Optional<Question> questionById = questionRepositoryGateway.getQuestionById(1L);
+
+        assertTrue(questionById.isPresent());
+        assertEquals(1, questionById.get().id());
     }
 
     @Test
     @Transactional
-    void deleteQuestionById() {
-    }
+    void getQuestionByIdDataNotFounded() {
+        Optional<Question> questionById = questionRepositoryGateway.getQuestionById(1L);
 
-    @Test
-    @Transactional
-    void updateQuestionPriority() {
-    }
-
-    @Test
-    @Transactional
-    void getAllQuestionNeedReview() {
-    }
-
-    @Test
-    @Transactional
-    void updateQuestionTimeDalyAndTimeDo() {
+        assertTrue(questionById.isEmpty());
     }
 
     private Question createQuestion() {
