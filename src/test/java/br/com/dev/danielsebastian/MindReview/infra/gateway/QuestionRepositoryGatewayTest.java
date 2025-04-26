@@ -96,6 +96,20 @@ class QuestionRepositoryGatewayTest {
         assertTrue(questionById.isEmpty());
     }
 
+    @Test
+    @Transactional
+    void deleteQuestionById() {
+        this.createQuestionEntity();
+
+        Optional<Question> questionById = questionRepositoryGateway.getQuestionById(1L);
+
+        questionRepositoryGateway.deleteQuestionById(questionById.get());
+
+        questionById = questionRepositoryGateway.getQuestionById(1L);
+
+        assertTrue(questionById.isEmpty());
+    }
+
     private Question createQuestion() {
         return new Question(null,"text test", "response test", DifficultyQuestion.EASY, LocalDateTime.now(), TimeDelay.NOW, 1, true);
     }
