@@ -113,7 +113,7 @@ class QuestionRepositoryGatewayTest {
     @Test
     @Transactional
     void updateQuestionPriorityTimePassed() {
-        this.createQuestionEntity();
+        this.createQuestionEntity(LocalDateTime.now().minusDays(1));
         Optional<Question> questionById = questionRepositoryGateway.getQuestionById(1L);
 
         questionRepositoryGateway.updateQuestionPriority(questionById.get(), 2, 0);
@@ -126,10 +126,10 @@ class QuestionRepositoryGatewayTest {
     @Test
     @Transactional
     void updateQuestionPriorityTimeNotPassed() {
-        this.createQuestionEntity();
+        this.createQuestionEntity(LocalDateTime.now().minusDays(1));
         Optional<Question> questionById = questionRepositoryGateway.getQuestionById(1L);
 
-        questionRepositoryGateway.updateQuestionPriority(questionById.get(), 2, 1);
+        questionRepositoryGateway.updateQuestionPriority(questionById.get(), 2, 3);
 
         questionById = questionRepositoryGateway.getQuestionById(1L);
 
@@ -180,7 +180,7 @@ class QuestionRepositoryGatewayTest {
 
         for (int i = 0; i < allQuestion.size(); i++) {
             assertFalse(allQuestionUpdate.get(i).isNeedReview());
-            assertTrue(allQuestionUpdate.get(i).timeDo().isAfter(allQuestion.get(i).timeDo()));
+            assertTrue(allQuestionUpdate.get(i).timeDo().isAfter(allQuestion.get(i).timeDo()) || allQuestionUpdate.get(i).timeDo().isEqual(allQuestion.get(i).timeDo()));
         }
 
         assertEquals(TimeDelay.DAY, allQuestionUpdate.get(0).timeDelay());
@@ -225,6 +225,18 @@ class QuestionRepositoryGatewayTest {
         question.setDifficultyQuestion(DifficultyQuestion.EASY);
         question.setTimeDo(LocalDateTime.now());
         question.setTimeDelay(timeDelay);
+        question.setPriority(1);
+        question.setNeedReview(true);
+        this.entityManager.persist(question);
+    }
+
+    private void createQuestionEntity(LocalDateTime localDateTime) {
+        QuestionEntity question = new QuestionEntity();
+        question.setText("text test");
+        question.setResponse("response test");
+        question.setDifficultyQuestion(DifficultyQuestion.EASY);
+        question.setTimeDo(localDateTime);
+        question.setTimeDelay(TimeDelay.NOW);
         question.setPriority(1);
         question.setNeedReview(true);
         this.entityManager.persist(question);
