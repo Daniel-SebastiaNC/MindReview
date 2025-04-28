@@ -83,4 +83,18 @@ class GetAllQuestionUsecaseTest {
             assertEquals(i+1, result.get(i).id());
         }
     }
+
+    @Test
+    void getAllQuestionDataNotFounded() {
+        // Arrange
+        List<Question> expected = new ArrayList<>();
+
+        when(gateway.getAllQuestion()).thenReturn(expected);
+
+        // Act
+        List<Question> result = getAllQuestionUsecase.execute();
+
+        // Assert
+        assertTrue(result.isEmpty());
+    }
 }
