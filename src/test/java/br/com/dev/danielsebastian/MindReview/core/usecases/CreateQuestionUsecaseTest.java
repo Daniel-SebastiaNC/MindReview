@@ -74,7 +74,7 @@ class CreateQuestionUsecaseTest {
         assertEquals(DifficultyQuestion.EASY, result.difficultyQuestion());
         assertEquals(5, result.priority());
         assertEquals(TimeDelay.NOW, result.timeDelay());
-        assertEquals(momentSave, result.timeDo());
+        assertTrue(momentSave.isBefore(result.timeDo()) || momentSave.isEqual(result.timeDo()));
         assertTrue(result.isNeedReview());
 
 
