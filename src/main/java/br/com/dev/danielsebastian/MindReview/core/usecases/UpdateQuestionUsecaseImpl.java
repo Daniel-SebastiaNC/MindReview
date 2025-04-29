@@ -20,7 +20,7 @@ public class UpdateQuestionUsecaseImpl implements UpdateQuestionUsecase{
                 questionById.id(),
                 question.text().isEmpty() ? questionById.text() : question.text(),
                 question.response().isEmpty() ? questionById.response() : question.response(),
-                String.valueOf(question.difficultyQuestion()).isEmpty() ? questionById.difficultyQuestion() : question.difficultyQuestion(),
+                String.valueOf(question.difficultyQuestion()).isEmpty() || question.difficultyQuestion() == null ? questionById.difficultyQuestion() : question.difficultyQuestion(),
                 questionById.timeDo(),
                 questionById.timeDelay(),
                 questionById.priority(),
