@@ -48,6 +48,20 @@ class DeleteQuestionByIdUsecaseTest {
         entityManager.createNativeQuery("TRUNCATE TABLE tb_question RESTART IDENTITY").executeUpdate();
     }
 
+    @Test
+    @Transactional
+    void deleteQuestionByIdDataFounded() {
+        // Arrange
+        this.createQuestionEntity();
+
+        // Act
+        deleteQuestionByIdUsecase.execute(1L);
+
+        //Assert
+        Optional<QuestionEntity> questionDeleted = questionRepository.findById(1L);
+        assertTrue(questionDeleted.isEmpty());
+    }
+
     private void createQuestionEntity() {
         QuestionEntity question = new QuestionEntity();
         question.setText("text test");
