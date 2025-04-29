@@ -62,6 +62,16 @@ class DeleteQuestionByIdUsecaseTest {
         assertTrue(questionDeleted.isEmpty());
     }
 
+    @Test
+    @Transactional
+    void deleteQuestionByIdDataNotFounded() {
+        // Arrange
+        this.createQuestionEntity();
+
+        // Act & Assert
+        assertThrows( DataNotFoundException.class, () -> deleteQuestionByIdUsecase.execute(2L));
+    }
+
     private void createQuestionEntity() {
         QuestionEntity question = new QuestionEntity();
         question.setText("text test");
