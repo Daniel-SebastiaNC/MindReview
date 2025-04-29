@@ -29,7 +29,7 @@ public class GetAllQuestionNeedReviewUsecaseImpl implements GetAllQuestionNeedRe
                     gateway.updateQuestionPriority(question, 3, 7);
                     break;
                 case TWO_WEEK:
-                    gateway.updateQuestionPriority(question, 2, 17);
+                    gateway.updateQuestionPriority(question, 2, 14);
                     break;
                 case MONTH:
                     gateway.updateQuestionPriority(question, 1, 30);
