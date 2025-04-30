@@ -177,6 +177,25 @@ class UpdateQuestionUsecaseTest {
         assertTrue(result.isNeedReview());
     }
 
+    @Test
+    @Transactional
+    void updateQuestionDataNotFounded() {
+        // Arrange
+        Question input = new Question(
+                null,
+                "Test text Update",
+                "Test response Update",
+                null,
+                null,
+                null,
+                0,
+                false
+        );
+
+        // Act and Assert
+        assertThrows(DataNotFoundException.class, () -> updateQuestionUsecase.execute(1L, input));
+    }
+
     private void createQuestionEntity(LocalDateTime localDateTime) {
         QuestionEntity question = new QuestionEntity();
         question.setText("text test");
