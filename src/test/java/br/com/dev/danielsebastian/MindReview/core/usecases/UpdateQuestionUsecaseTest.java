@@ -145,6 +145,38 @@ class UpdateQuestionUsecaseTest {
         assertTrue(result.isNeedReview());
     }
 
+    @Test
+    @Transactional
+    void updateQuestionDataFoundedUpdateResponseAndDifficultyQuestion() {
+        // Arrange
+        LocalDateTime now = LocalDateTime.now();
+        this.createQuestionEntity(now);
+
+        Question input = new Question(
+                null,
+                "",
+                "Test response Update",
+                DifficultyQuestion.NORMAL,
+                null,
+                null,
+                0,
+                false
+        );
+
+        // Act
+        Question result = updateQuestionUsecase.execute(1L, input);
+
+        // Assert
+        assertEquals(1L, result.id());
+        assertEquals("text test", result.text());
+        assertEquals(input.response(), result.response());
+        assertEquals(input.difficultyQuestion(), result.difficultyQuestion());
+        assertEquals(now, result.timeDo());
+        assertEquals(TimeDelay.NOW, result.timeDelay());
+        assertEquals(1, result.priority());
+        assertTrue(result.isNeedReview());
+    }
+
     private void createQuestionEntity(LocalDateTime localDateTime) {
         QuestionEntity question = new QuestionEntity();
         question.setText("text test");
