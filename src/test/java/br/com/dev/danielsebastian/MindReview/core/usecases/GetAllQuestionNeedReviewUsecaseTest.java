@@ -51,6 +51,29 @@ class GetAllQuestionNeedReviewUsecaseTest {
         entityManager.createNativeQuery("TRUNCATE TABLE tb_question RESTART IDENTITY").executeUpdate();
     }
 
+    @Test
+    @Transactional
+    void getAllQuestionNeedReviewDataFoundedTimePassedToDo() {
+        // Arrange
+        this.createQuestionEntity(LocalDateTime.now().minusMinutes(1), TimeDelay.NOW, true);
+        this.createQuestionEntity(LocalDateTime.now().minusDays(1).minusMinutes(1), TimeDelay.DAY, false);
+        this.createQuestionEntity(LocalDateTime.now().minusWeeks(1).minusMinutes(1), TimeDelay.ONE_WEEK, false);
+        this.createQuestionEntity(LocalDateTime.now().minusWeeks(2).minusMinutes(1), TimeDelay.TWO_WEEK, false);
+        this.createQuestionEntity(LocalDateTime.now().minusMonths(1).minusMinutes(1), TimeDelay.MONTH, false);
+
+        //Act
+        List<Question> result = getAllQuestionNeedReviewUsecase.execute();
+
+        //Assert
+        result.forEach(System.out::println);
+        assertFalse(result.isEmpty());
+        assertEquals(5, result.size());
+
+        for (int i = 0; i < result.size(); i++) {
+            assertEquals(i+1, result.get(i).priority());
+        }
+    }
+
     private void createQuestionEntity(LocalDateTime localDateTime, TimeDelay timeDelay, boolean isNeedReview) {
         QuestionEntity question = new QuestionEntity();
         question.setText("text test");
