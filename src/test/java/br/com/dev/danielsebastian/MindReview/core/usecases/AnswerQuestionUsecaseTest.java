@@ -98,4 +98,15 @@ class AnswerQuestionUsecaseTest {
         assertEquals(TimeDelay.NOW, result.timeDelay());
         assertTrue(result.isNeedReview());
     }
+
+    @Test
+    void answerQuestionDataNotFounded() {
+        // Arrange
+        AnswerQuestion input = new AnswerQuestion("Incorrect");
+
+        when(gateway.getQuestionById(1L)).thenReturn(Optional.empty());
+
+        //Act & Assert
+        assertThrows(DataNotFoundException.class, () -> answerQuestionUsecase.execute(1L, input));
+    }
 }
