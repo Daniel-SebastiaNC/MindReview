@@ -94,6 +94,19 @@ class GetAllQuestionNeedReviewUsecaseTest {
         assertEquals(5, result.get(0).priority());
     }
 
+    @Test
+    @Transactional
+    void getAllQuestionNeedReviewDataNotFounded() {
+        // Arrange
+        this.createQuestionEntity(LocalDateTime.now(), TimeDelay.DAY, false);
+
+        //Act
+        List<Question> result = getAllQuestionNeedReviewUsecase.execute();
+
+        //Assert
+        assertTrue(result.isEmpty());
+    }
+
     private void createQuestionEntity(LocalDateTime localDateTime, TimeDelay timeDelay, boolean isNeedReview) {
         QuestionEntity question = new QuestionEntity();
         question.setText("text test");
