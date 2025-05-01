@@ -74,6 +74,26 @@ class GetAllQuestionNeedReviewUsecaseTest {
         }
     }
 
+    @Test
+    @Transactional
+    void getAllQuestionNeedReviewDataFoundedTimePassedNotToDo() {
+        // Arrange
+        this.createQuestionEntity(LocalDateTime.now(), TimeDelay.NOW, true);
+        this.createQuestionEntity(LocalDateTime.now(), TimeDelay.DAY, false);
+        this.createQuestionEntity(LocalDateTime.now(), TimeDelay.ONE_WEEK, false);
+        this.createQuestionEntity(LocalDateTime.now(), TimeDelay.TWO_WEEK, false);
+        this.createQuestionEntity(LocalDateTime.now(), TimeDelay.MONTH, false);
+
+        //Act
+        List<Question> result = getAllQuestionNeedReviewUsecase.execute();
+
+        //Assert
+        result.forEach(System.out::println);
+        assertFalse(result.isEmpty());
+        assertEquals(1, result.size());
+        assertEquals(5, result.get(0).priority());
+    }
+
     private void createQuestionEntity(LocalDateTime localDateTime, TimeDelay timeDelay, boolean isNeedReview) {
         QuestionEntity question = new QuestionEntity();
         question.setText("text test");
