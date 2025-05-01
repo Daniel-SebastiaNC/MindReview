@@ -70,4 +70,32 @@ class AnswerQuestionUsecaseTest {
         assertEquals(expectedUpdateTimeDaleyAndTimeDo.timeDelay(), result.timeDelay());
         assertFalse(result.isNeedReview());
     }
+
+    @Test
+    void answerQuestionDataFoundedResponseIncorrect() {
+        // Arrange
+        LocalDateTime timeBefore = LocalDateTime.now().minusDays(1);
+        Question expectedGetById = new Question(
+                1L,
+                "Test text",
+                "Test response",
+                DifficultyQuestion.EASY,
+                timeBefore,
+                TimeDelay.NOW,
+                5,
+                true
+        );
+
+        AnswerQuestion input = new AnswerQuestion("Incorrect");
+
+        when(gateway.getQuestionById(1L)).thenReturn(Optional.of(expectedGetById));
+
+        //Act
+        Question result = answerQuestionUsecase.execute(1L, input);
+
+        assertEquals(expectedGetById.id(), result.id());
+        assertTrue(timeBefore.isEqual(result.timeDo()));
+        assertEquals(TimeDelay.NOW, result.timeDelay());
+        assertTrue(result.isNeedReview());
+    }
 }
