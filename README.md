@@ -1,4 +1,4 @@
-# 🧠 FlashCardsReview
+# 🧠 MindReview
 
 Aplicativo de Flash Cards para revisão espaçada!  
 Com o FlashCardsReview, você pode cadastrar perguntas e respostas para serem revisadas em intervalos estratégicos: agora, 1 dia, 1 semana, 2 semanas e 1 mês.  
@@ -33,20 +33,20 @@ Ideal para fixar conteúdos na memória de longo prazo. 🚀
 - Spring Web
 - Spring Data JPA
 - PostgreSQL
-<!-- Swagger OpenAPI-->
+- Swagger OpenAPI
 - Lombok
-<!-- 
+ 
 ## 📄 Documentação da API
 
 Após rodar a aplicação, acesse a documentação no Swagger:
 
 > [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) ↗️
--->
+
 ## 📋 Requisitos
 
 - Java 17
 - Maven 3.x
-<!--- PostgreSQL-->
+- PostgreSQL
 
 ## 📚 Licença
 
