@@ -2,7 +2,9 @@ package br.com.dev.danielsebastian.MindReview.infra.presentation;
 
 import br.com.dev.danielsebastian.MindReview.core.domians.Question;
 import br.com.dev.danielsebastian.MindReview.core.usecases.*;
-import br.com.dev.danielsebastian.MindReview.infra.dtos.AnswerQuestionDto;
+import br.com.dev.danielsebastian.MindReview.infra.docs.QuestionControllerDoc;
+import br.com.dev.danielsebastian.MindReview.infra.dtos.request.AnswerQuestionRequestDto;
+import br.com.dev.danielsebastian.MindReview.infra.dtos.response.AnswerQuestionResponseDto;
 import br.com.dev.danielsebastian.MindReview.infra.dtos.QuestionDto;
 import br.com.dev.danielsebastian.MindReview.infra.mappers.AnswerQuestionDtoMapper;
 import br.com.dev.danielsebastian.MindReview.infra.mappers.QuestionDtoMapper;
@@ -11,14 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/api/question")
-public class QuestionController {
+public class QuestionController implements QuestionControllerDoc {
 
     private final CreateQuestionUsecase createQuestionUsecase;
     private final GetAllQuestionUsecase getAllQuestionUsecase;
@@ -76,14 +76,11 @@ public class QuestionController {
     }
 
     @PostMapping("/answer/{id}")
-    public ResponseEntity<Map<String, Object>> answerQuestion(@PathVariable Long id, @RequestBody AnswerQuestionDto answerQuestionDto){
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<AnswerQuestionResponseDto> answerQuestion(@PathVariable Long id, @RequestBody AnswerQuestionRequestDto answerQuestionDto){
+        QuestionDto question = questionDtoMapper.toDto(
+                answerQuestionUsecase.execute(id, answerQuestionDtoMapper.toDomain(answerQuestionDto))
+        );
 
-        Question question = answerQuestionUsecase.execute(id, answerQuestionDtoMapper.toDomain(answerQuestionDto));
-
-        response.put("Result: ", !question.isNeedReview());
-        response.put("Response: ", question);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new AnswerQuestionResponseDto(question, !question.isNeedReview()));
     }
 }
