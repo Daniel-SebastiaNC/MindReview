@@ -2,6 +2,7 @@ package br.com.dev.danielsebastian.MindReview.infra.presentation;
 
 import br.com.dev.danielsebastian.MindReview.core.domians.Question;
 import br.com.dev.danielsebastian.MindReview.core.usecases.*;
+import br.com.dev.danielsebastian.MindReview.infra.docs.QuestionControllerDoc;
 import br.com.dev.danielsebastian.MindReview.infra.dtos.request.AnswerQuestionRequestDto;
 import br.com.dev.danielsebastian.MindReview.infra.dtos.response.AnswerQuestionResponseDto;
 import br.com.dev.danielsebastian.MindReview.infra.dtos.QuestionDto;
@@ -17,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/api/question")
-public class QuestionController {
+public class QuestionController implements QuestionControllerDoc {
 
     private final CreateQuestionUsecase createQuestionUsecase;
     private final GetAllQuestionUsecase getAllQuestionUsecase;
